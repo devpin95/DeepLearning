@@ -4,7 +4,7 @@ You might have noticed Dr. B is wearing T-shirts for the last couple of weeks; l
 In this  programming  assignment,  you are going  to build  an apparel  classifier  from images. Besidesassisting Dr. B to enlightening him about cloth types, it has many practical applications in e-commerce and advertising.
 
 ## Dataset
-The following four data files are in compressed format. Be sure to use [LoadDataModule.py](PA2/LoadDataModule.py)  to uncompress them and get the corresponding dataset into your workspace.
+The following four data files are in compressed format. Be sure to use [LoadDataModule.py](https://github.com/devpin95/DeepLearning/blob/master/PA2/LoadDataModule.py)  to uncompress them and get the corresponding dataset into your workspace.
 
 1. [train_images.zip](https://github.com/devpin95/DeepLearning/blob/master/PA2/train_images.zip)
 
