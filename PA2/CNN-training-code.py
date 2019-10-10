@@ -1,6 +1,6 @@
 from sklearn import preprocessing as prep
 from sklearn.metrics import confusion_matrix, classification_report
-from keras.layers import Dense
+from keras.layers import Dense, Conv2D, Flatten, MaxPooling2D
 from keras.models import Sequential
 from keras import backend as K
 from keras import callbacks
@@ -145,20 +145,22 @@ def main():
     train_images_normalized = scalar.transform(train_images)
     test_images_normalized = scalar.transform(test_images)
 
+    train_images_normalized = train_images_normalized.reshape(60000, 28, 28, 1)
+    # test_images_normalized.reshape(28, 28, 60000)
+
     # Run the classes through onehot encoder
     train_labels = oneHotEncoder(train_labels)
-    # test_labels = OneHotEncoder(test_labels)
 
     # Training parameters
     minibatch_size = 200
-    epochs = 50
+    epochs = 1
 
     # Set up the model
     model = Sequential()
-    model.add(Dense( 784, input_dim=784, activation='tanh' ))
-    model.add(Dense( 512, activation='sigmoid' ))
-    model.add(Dense( 100, activation='relu' ))
-    model.add(Dense( 10, activation='softmax' ))
+    model.add(Conv2D(40, kernel_size=(5, 5), strides=(1, 1),
+                     activation='relu',
+                     input_shape=train_images_normalized.shape[1:]))
+    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
     print("\nModel summary...")
     model.summary()
