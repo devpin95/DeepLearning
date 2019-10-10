@@ -22,7 +22,7 @@ The following four data files are in compressed format. Be sure to use [LoadData
 
     10,000 samples from 10 classes for the images in the given test_images. Class details are listed below.
 
-##Class Labels
+## Class Labels
 
 Each training and test samples are assigned to one of the following labels:
 
@@ -40,7 +40,7 @@ Each training and test samples are assigned to one of the following labels:
 | 9     | Ankle boot    |
 
 
-##Task 1.1: Your own “Vanilla” Artificial Neural Network to classify clothes
+## Task 1.1: Your own “Vanilla” Artificial Neural Network to classify clothes
 1. Build a feed forward Neural network from scratch (i.e., without Tensorflow or Keras or similar computation frameworks ) with the following specification:
     - Hidden layer 1: 784 neurons with hyperbolic tangent activation function in each neuron
     - Hidden layer 2: 512 neurons, with sigmoid activation function in each of the neuron
