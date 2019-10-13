@@ -53,6 +53,30 @@ Each training and test samples are assigned to one of the following labels:
     * (a) print classification accuracy in your report
     * (b) Print the 10-class confusion matrix and then print classwise accuracy, precision, recall and F1-measure
 
+#### Results
+Training Metrics:
+
+| Loss | Accuracy | Recall | Precision | F1-Score |
+| --- | --- | --- | --- | --- |
+| 0.029 | 0.9897 | 0.9893 | 0.9902 | 0.9897 |
+
+Test Metrics (per class):
+
+| *Class* | Accuracy | Recall | Precision | F1-Score |
+| --- | --- | --- | --- | --- |
+| *0* | 0.883 | 0.883 | 0.8093 | 0.8446 |
+| *1* | 0.971 | 0.971 | 0.9898 | 0.9803 |
+| *2* | 0.798 | 0.798 | 0.8365 | 0.8168 |
+| *3* | 0.915 | 0.915 | 0.8953 | 0.905 |
+| *4* | 0.836 | 0.836 | 0.8277 | 0.8318 |
+| *5* | 0.952 | 0.952 | 0.9794 | 0.9655 |
+| *6* | 0.7 | 0.7	| 0.7407 | 0.7198 |
+| *7* | 0.978 | 0.978 | 0.9244 | 0.9504 |
+| *8* | 0.97 | 0.97 | 0.9788 | 0.9744 |
+| *9* | 0.949 | 0.949 | 0.9723 | 0.9605 |
+
+
+
 ## Task 2: Your own Small Convolution Neural Network to classify clothes (Keras)
 1. Build a Convolution Neural network from scratch (i.e., without Tensorflow or Keras or similar computation frameworks ) with the following specification:
     - Convolution layer having 40 feature detectors, with kernel size 5 x 5, and rectifier as the activation function, with stride 1 and no-padding
