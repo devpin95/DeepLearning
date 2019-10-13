@@ -12,6 +12,7 @@ from matplotlib.ticker import MaxNLocator
 from prettytable import PrettyTable
 import seaborn as sn
 import pandas as pd
+from itertools import accumulate
 
 
 # Metric calculations found at
@@ -56,24 +57,24 @@ def lossPlot(loss):
     ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
     plt.plot(x, loss)
-    plt.title('Epoch-Loss', fontdict={'fontsize': 15}, pad=20)
+    plt.title('CNN Epoch-Loss Plot', fontdict={'fontsize': 15}, pad=20)
     plt.xlabel('Epoch', fontdict={'fontsize': 11}, labelpad=20)
     plt.ylabel('Loss', fontdict={'fontsize': 11}, labelpad=20)
-    plt.savefig('EpochLoss.png', bbox_inches='tight', pad_inches=0.5)
+    plt.savefig('CNN-EpochLoss.png', bbox_inches='tight', pad_inches=0.5)
     plt.show()
 
 
-def timePlot(times):
-    x = [i for i in range(0, len(times))]
+def lossWallPlot(times, loss):
+    times = list(accumulate(times))
 
     ax = plt.figure().gca()
     ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
-    plt.plot(x, times)
-    plt.title('Loss-Wall', fontdict={'fontsize': 15}, pad=20)
-    plt.xlabel('Epoch', fontdict={'fontsize': 11}, labelpad=20)
-    plt.ylabel('Time', fontdict={'fontsize': 11}, labelpad=20)
-    plt.savefig('LossWall.png', bbox_inches='tight', pad_inches=0.5)
+    plt.plot(times, loss)
+    plt.title('CNN Loss-Wall Plot', fontdict={'fontsize': 15}, pad=20)
+    plt.xlabel('Time (seconds)', fontdict={'fontsize': 11}, labelpad=20)
+    plt.ylabel('Loss', fontdict={'fontsize': 11}, labelpad=20)
+    plt.savefig('CNN-LossWall.png', bbox_inches='tight', pad_inches=0.5)
     plt.show()
 
 
@@ -85,10 +86,10 @@ def confusionMatrix(cm):
     ax = sn.heatmap(df_cm, annot=True, cmap="Blues", fmt='g')
     bottom, top = ax.get_ylim()
     ax.set_ylim(bottom + 0.5, top - 0.5)
-    plt.title('Confusion Matrix', fontdict={'fontsize': 15}, pad=20)
+    plt.title('CNN Confusion Matrix', fontdict={'fontsize': 15}, pad=20)
     plt.xlabel('Predicted', fontdict={'fontsize': 11}, labelpad=20)
     plt.ylabel('True', fontdict={'fontsize': 11}, labelpad=20)
-    plt.savefig('ConfusionMatrix.png', bbox_inches=None, pad_inches=0.5)
+    plt.savefig('CNN-ConfusionMatrix.png', bbox_inches=None, pad_inches=0.5)
     plt.show()
 
 
@@ -98,6 +99,12 @@ def printClassMetrics(metrics):
         if key not in ['accuracy', 'macro avg', 'weighted avg']:
             t.add_row([key, round(metrics[key]['precision'], 4), round(metrics[key]['recall'], 4), round(metrics[key]['f1-score'], 4)])
     print(t)
+
+
+def classwiseAccuracy(cm, metrics):
+    for i in range(0, 10):
+        metrics[str(i)]['class_accuracy'] = cm[i][i] / metrics[str(i)]['support']
+    return metrics
 
 
 class LoadDataModule(object):
@@ -146,21 +153,30 @@ def main():
     test_images_normalized = scalar.transform(test_images)
 
     train_images_normalized = train_images_normalized.reshape(60000, 28, 28, 1)
-    # test_images_normalized.reshape(28, 28, 60000)
+    test_images_normalized = test_images_normalized.reshape(10000, 28, 28, 1)
 
     # Run the classes through onehot encoder
     train_labels = oneHotEncoder(train_labels)
 
-    # Training parameters
+    # hyperparameters
     minibatch_size = 200
-    epochs = 1
+    epochs = 50
+    num_features = 40
+    feature_size = 5
+    pool_size = 2
+    input_shape = train_images_normalized.shape[1:]  # (28, 28, 1)
+    full_connection = 100
+    output = 10
 
     # Set up the model
-    model = Sequential()
-    model.add(Conv2D(40, kernel_size=(5, 5), strides=(1, 1),
-                     activation='relu',
-                     input_shape=train_images_normalized.shape[1:]))
-    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+    model = Sequential([
+        Conv2D(num_features, feature_size, input_shape=input_shape),
+        MaxPooling2D(pool_size),
+        Flatten(),
+        Dense(full_connection, activation='relu'),
+        Dense(output, activation='softmax')
+    ])
+
 
     print("\nModel summary...")
     model.summary()
@@ -178,7 +194,7 @@ def main():
     times = time_callback.times
     epochloss = history.history['loss']
     lossPlot(epochloss)
-    timePlot(times)
+    lossWallPlot(times, epochloss)
 
     print("\nRunning against training data...")
 
@@ -188,13 +204,17 @@ def main():
 
     print('\nTest Metrics (Per Class)')
     predictions = model.predict_classes(test_images_normalized, minibatch_size)
-    printClassMetrics(classification_report(test_labels, predictions, output_dict=True))
+    cm = confusion_matrix(test_labels, predictions)
+    metrics = classification_report(test_labels, predictions, output_dict=True)
+    metrics = classwiseAccuracy(cm, metrics)
+
+    printClassMetrics(metrics)
 
     print("\nConfusion Matrix")
-    confusionMatrix(confusion_matrix(test_labels, predictions))
+    confusionMatrix(cm)
 
-    print('\nEpoch-Loss graph saved in EpochLoss.png')
-    print('Confusion matrix saved in ConfusionMatrix.png')
+    print('\nEpoch-Loss graph saved in ANN-EpochLoss.png')
+    print('Confusion matrix saved in ANN-ConfusionMatrix.png')
 
 
 main()
