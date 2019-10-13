@@ -76,7 +76,8 @@ Test Metrics (per class):
 | *9* | 0.949 | 0.949 | 0.9723 | 0.9605 |
 
 ![Image on https://github.com/devpin95/DeepLearning/tree/master/PA2/Metrics](https://github.com/devpin95/DeepLearning/blob/master/PA2/Metrics/ANN-ConfusionMatrix.png)
-
+![Image on https://github.com/devpin95/DeepLearning/tree/master/PA2/Metrics](https://github.com/devpin95/DeepLearning/blob/master/PA2/Metrics/ANN-EpochLoss.png)
+![Image on https://github.com/devpin95/DeepLearning/tree/master/PA2/Metrics](https://github.com/devpin95/DeepLearning/blob/master/PA2/Metrics/ANN-LossWall.png)
 
 ## Task 2: Your own Small Convolution Neural Network to classify clothes (Keras)
 1. Build a Convolution Neural network from scratch (i.e., without Tensorflow or Keras or similar computation frameworks ) with the following specification:
