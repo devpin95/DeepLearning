@@ -1,4 +1,4 @@
-# DeepLearning Programming Assignment 2
+# Deep Learning Programming Assignment 2
 You might have noticed Dr. B is wearing T-shirts for the last couple of weeks; luckily not the same T-shirt! As the season is kind-of chilling out over time, you may notice a very little change in his fashion sense ( or not). He is becoming lethargic to picking out a trendy cloth (even though he has lots of it inhis closet, haha...), because he does not have that sense yet. He needs your help in properly classifyingtypes of clothes possible to wear.
 
 In this  programming  assignment,  you are going  to build  an apparel  classifier  from images. Besidesassisting Dr. B to enlightening him about cloth types, it has many practical applications in e-commerce and advertising.
@@ -53,7 +53,7 @@ Each training and test samples are assigned to one of the following labels:
     * (a) print classification accuracy in your report
     * (b) Print the 10-class confusion matrix and then print classwise accuracy, precision, recall and F1-measure
 
-#### Results
+### Results
 Training Metrics:
 
 | Loss | Accuracy | Recall | Precision | F1-Score |
@@ -75,6 +75,7 @@ Test Metrics (per class):
 | *8* | 0.97 | 0.97 | 0.9788 | 0.9744 |
 | *9* | 0.949 | 0.949 | 0.9723 | 0.9605 |
 
+![Image on https://github.com/devpin95/DeepLearning/tree/master/PA2/Metrics](https://github.com/devpin95/DeepLearning/blob/master/PA2/Metrics/ANN-ConfusionMatrix.png)
 
 
 ## Task 2: Your own Small Convolution Neural Network to classify clothes (Keras)
