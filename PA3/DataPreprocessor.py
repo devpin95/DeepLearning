@@ -58,7 +58,7 @@ class DataPreprocessor(object):
 
 
     @staticmethod
-    def get_dataset(dataset, path):
+    def get_dataset(dataset, path, clean=False):
         txts = [f for f in listdir(path) if isfile(join(path, f))]
 
         for file in txts:
@@ -72,3 +72,16 @@ class DataPreprocessor(object):
                         continue
                     dataset.append(DataPreprocessor.ascii_clean(c))
                 print("Finished")
+
+        if clean:
+            DataPreprocessor.dataset_remove_newline(dataset)
+
+    @staticmethod
+    def dataset_remove_newline(dataset):
+        indices = [i for i, x in enumerate(dataset) if x == '\n' or x == '\r\n']
+        for index in indices:
+            dataset[index] = ' '
+
+        for i in range(len(dataset) - 1):
+            if dataset[i] == ' ' and dataset[i+1] == ' ':
+                del dataset[i+1:i+1]
